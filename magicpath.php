@@ -1,3 +1,4 @@
+<?php
 /*
  * magicpath.php
  * Copyright 2013 Stefano Sabatini
@@ -15,19 +16,15 @@
  * limitations under the License.
  *
  */
-
-function magicpath($folder='', $partial = NULL) {
-  $slash=strrpos(__FILE__, '/')? "/" : "\\";
-	$B = substr(__FILE__, 0, strrpos(__FILE__, $slash));
-	$A = substr($_SERVER['DOCUMENT_ROOT'], strrpos($_SERVER['DOCUMENT_ROOT'], $_SERVER['PHP_SELF']));
-	$C = substr($B, strlen($A));
-	$posconf = strlen($C) - strlen($folder);
+function magicpath($partial = NULL) {
+   $slash=strrpos($_SERVER['SCRIPT_FILENAME'], '/')? "/" : "\\"; //slash or backslash?
+	$B = substr($_SERVER['SCRIPT_FILENAME'], 0, strrpos($_SERVER['SCRIPT_FILENAME'], $slash)); //till last occurrence of slash
+	$C = substr($B, strlen($_SERVER['DOCUMENT_ROOT']));
+	$posconf = strlen($C);
 	$D = substr($C, 1, $posconf);
 	$D = '/' .str_replace ("\\","/",$D ). '/';
 	return $partial ?  $D :  'http://' . $_SERVER['SERVER_NAME'] . $D ;
 }
 
-function mp($folder='', $partial = NULL) {
-	$C = substr(substr(__FILE__, 0, strrpos(__FILE__, (strrpos(__FILE__, '/')? "/" : "\\"))), strlen(substr($_SERVER['DOCUMENT_ROOT'], strrpos($_SERVER['DOCUMENT_ROOT'], $_SERVER['PHP_SELF']))));
-	return ($partial ? '': 'http://' . $_SERVER['SERVER_NAME'] . '/'). str_replace ("\\","/",substr($C, 1, (strlen($C) - strlen($folder) -2 )) ). '/';
-}
+function mp($partial = NULL) { magicpath($partial); }
+?>
