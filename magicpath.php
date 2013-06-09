@@ -22,7 +22,7 @@ function magicpath($partial = NULL) {
 	$C = substr($B, strlen($_SERVER['DOCUMENT_ROOT']));
 	$posconf = strlen($C);
 	$D = substr($C, 1, $posconf);
-	$D = '/' .str_replace ("\\","/",$D ). '/';
+	$D = '/' .str_replace ("\\","/",$D ). ($D!='' ? '/' : '');
 	return $partial ?  $D :  'http://' . $_SERVER['SERVER_NAME'] . $D ;
 }
 
