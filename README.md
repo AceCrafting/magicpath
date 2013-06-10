@@ -8,14 +8,17 @@ Usage
 -----
 
 Drop it where you want inside your project!
+Need to pass the dimension of relative path to the root from the function.
 
+Example:
+-if you drop the function in the root of your website, you obtain the absolute url via
 ```php
-$path=magicpath();
+$host=magicpath(0);
 ```
-or
+If it' one level down from the root
 ```php
-$path=mp();
+$host=magicpath(1);
 ```
+Same if you call it from lower scripts (related to the file tree structure).
 
-
-There's an optional parameter, $partial, if it's true makes the returned path without the host part.
+It's provided a simple mp(); which equals magicpath(0); 
