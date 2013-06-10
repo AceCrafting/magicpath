@@ -16,15 +16,13 @@
  * limitations under the License.
  *
  */
-function magicpath($partial = NULL) {
-   $slash=strrpos($_SERVER['SCRIPT_FILENAME'], '/')? "/" : "\\"; //slash or backslash?
-	$B = substr($_SERVER['SCRIPT_FILENAME'], 0, strrpos($_SERVER['SCRIPT_FILENAME'], $slash)); //till last occurrence of slash
-	$C = substr($B, strlen($_SERVER['DOCUMENT_ROOT']));
-	$posconf = strlen($C);
-	$D = substr($C, 1, $posconf);
-	$D = '/' .str_replace ("\\","/",$D ). ($D!='' ? '/' : '');
+function magicpath($fol,$partial = NULL) {
+	$dir=__FILE__;
+	for($i=0;$i<$fol;$i++) $dir=dirname($dir);
+	$C = substr($dir, strlen($_SERVER['DOCUMENT_ROOT']));
+	$D = str_replace ("\\","/",$C ). ($C!='' ? '/' : '');
 	return $partial ?  $D :  'http://' . $_SERVER['SERVER_NAME'] . $D ;
 }
 
-function mp($partial = NULL) { magicpath($partial); }
+function mp($fol, $partial = NULL) { magicpath($fol, $partial); }
 ?>
