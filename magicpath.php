@@ -17,12 +17,16 @@
  *
  */
  
-function magicpath($fol,$partial = NULL) {
+function magicpath($fol,$partial = false) {
 	$dir=__FILE__;
 	for($i=0;$i<=$fol;$i++) $dir=dirname($dir);
 	$C = substr($dir, strlen($_SERVER['DOCUMENT_ROOT']));
 	$D = str_replace ("\\","/",$C ). ($C!='' ? '/' : '');
-	return $partial ?  $D :  'http://' . $_SERVER['SERVER_NAME'] . $D ;
+	if ($partial) {
+	$co=strlen($D) - strlen(str_replace(str_split("/"), '', $D))-1; // count /
+	return str_repeat("../",$co);
+	}
+	return 'http://' . $_SERVER['SERVER_NAME'] . $D ;
 }
 
 function mp() { return magicpath(0); }
